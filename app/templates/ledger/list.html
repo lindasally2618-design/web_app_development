@@ -1,0 +1,42 @@
+# app/templates/ledger/list.html
+{% extends "base.html" %}
+{% block title %}收支列表 - 個人記賬簿{% endblock %}
+{% block content %}
+<h2 class="mb-4">收支記錄</h2>
+<a href="{{ url_for('ledger.add_transaction') }}" class="btn btn-success mb-3">新增交易</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>日期</th>
+      <th>類別</th>
+      <th>金額</th>
+      <th>類型</th>
+      <th>備註</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for txn in transactions %}
+    <tr>
+      <td>{{ txn.date }}</td>
+      <td>{{ txn.category.name if txn.category else "未分類" }}</td>
+      <td>{{ txn.amount }}</td>
+      <td>{{ txn.type }}</td>
+      <td>{{ txn.note }}</td>
+      <td>
+        <a href="{{ url_for('ledger.edit_transaction', transaction_id=txn.id) }}" class="btn btn-sm btn-primary">編輯</a>
+
+        <form action="{{ url_for('ledger.delete_transaction', transaction_id=txn.id) }}" method="POST"
+          style="display:inline;">
+          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('確定要刪除嗎？')">刪除</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="6" class="text-center">尚無交易紀錄</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

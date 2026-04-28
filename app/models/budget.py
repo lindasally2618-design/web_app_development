@@ -4,7 +4,7 @@ Provides CRUD helper methods.
 """
 
 from datetime import datetime
-from .user import db
+from .. import db
 
 class Budget(db.Model):
     __tablename__ = 'budget'
