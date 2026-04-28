@@ -28,5 +28,31 @@ def add_transaction():
         db.session.add(new_tx)
         db.session.commit()
         return redirect(url_for('ledger.list_transactions'))
-    
     return render_template('ledger/add.html')
+
+@ledger_bp.route('/<int:transaction_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_transaction(transaction_id):
+    transaction = Transaction.query.get_or_404(transaction_id)
+    if transaction.user_id != current_user.id:
+        return redirect(url_for('ledger.list_transactions'))
+        
+    if request.method == 'POST':
+        transaction.amount = float(request.form.get('amount') or transaction.amount)
+        transaction.type = request.form.get('type', transaction.type)
+        transaction.note = request.form.get('note', transaction.note)
+        # Note: date formatting usually needs care if using datetime, but here we just update what we can.
+        db.session.commit()
+        return redirect(url_for('ledger.list_transactions'))
+        
+    categories = Category.query.filter_by(user_id=current_user.id).all()
+    return render_template('ledger/edit.html', transaction=transaction, categories=categories)
+
+@ledger_bp.route('/<int:transaction_id>/delete', methods=['POST'])
+@login_required
+def delete_transaction(transaction_id):
+    transaction = Transaction.query.get_or_404(transaction_id)
+    if transaction.user_id == current_user.id:
+        db.session.delete(transaction)
+        db.session.commit()
+    return redirect(url_for('ledger.list_transactions'))
