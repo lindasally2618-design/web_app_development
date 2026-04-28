@@ -22,10 +22,10 @@
     <div class="mb-3">
       <label class="form-label">分類</label>
       <select name="category_id" class="form-select" required>
-        <option value="1">飲食</option>
-        <option value="2">交通</option>
-        <option value="3">購物</option>
-        <option value="4">薪資</option>
+        <option value="">請選擇分類</option>
+        {% for cat in categories %}
+        <option value="{{ cat.id }}">{{ cat.name }}</option>
+        {% endfor %}
       </select>
     </div>
     <div class="mb-3">

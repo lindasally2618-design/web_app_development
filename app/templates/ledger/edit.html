@@ -3,7 +3,7 @@
 {% block title %}編輯交易 - 個人記賬簿{% endblock %}
 {% block content %}
 <h2 class="mb-4">編輯交易</h2>
-<form method="post" action="{{ url_for('ledger.edit_transaction', id=transaction.id) }}">
+<form method="post" action="{{ url_for('ledger.edit_transaction', transaction_id=transaction.id) }}">
   <div class="mb-3">
     <label for="date" class="form-label">日期</label>
     <input type="date" class="form-control" id="date" name="date" value="{{ transaction.date }}" required>

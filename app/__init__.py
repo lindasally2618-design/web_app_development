@@ -12,7 +12,7 @@ from flask_login import LoginManager
 # Initialize extensions (instance will be bound in create_app)
 db = SQLAlchemy()
 login_manager = LoginManager()
-login_manager.login_view = "auth.login_get"
+login_manager.login_view = "auth.login"
 
 def create_app():
     """Application factory.
@@ -50,5 +50,10 @@ def create_app():
     @app.route('/health')
     def health():
         return "OK", 200
+
+    @app.route('/')
+    def index():
+        from flask import redirect, url_for
+        return redirect(url_for('ledger.list_transactions'))
 
     return app
