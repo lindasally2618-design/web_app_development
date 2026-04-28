@@ -4,9 +4,7 @@ Uses SQLAlchemy ORM. Provides basic CRUD helpers.
 """
 
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from .. import db
 
 class User(db.Model):
     __tablename__ = 'user'

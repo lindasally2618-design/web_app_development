@@ -4,7 +4,7 @@ Provides CRUD helpers.
 """
 
 from datetime import datetime
-from .user import db
+from .. import db
 
 class Category(db.Model):
     __tablename__ = 'category'
